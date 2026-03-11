@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+<title>Khóa học nấu ăn</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f5f5f5;
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+gap:20px;
+padding:20px;
+}
+
+.card{
+background:white;
+padding:10px;
+border-radius:10px;
+}
+
+img{
+width:100%;
+}
+
+.price{
+color:red;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1 style="text-align:center">
+Danh sách khóa học
+</h1>
+
+<div id="courses" class="grid"></div>
+
+<script>
+
+const API="https://script.google.com/macros/s/AKfycby7ENqYYIycksLe8HaSnYFfjOXDD_KBHKa_PA3RRjxTdXEod4DKafN0TDny_pgSJf6i/exec";
+
+fetch(API)
+.then(r=>r.json())
+.then(data=>{
+
+let box=document.getElementById("courses")
+
+data.forEach(c=>{
+
+if(c["Hiển thị"]!="ON") return
+
+box.innerHTML+=`
+
+<div class="card">
+
+<img src="${c["Ảnh"]}">
+
+<h3>${c["Tên"]}</h3>
+
+<p>${c["Mô tả"]}</p>
+
+<div class="price">${c["Giá sale"]} đ</div>
+
+</div>
+
+`
+
+})
+
+})
+
+</script>
+
+</body>
+</html>
