@@ -1,178 +1,244 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="vi">
 <head>
-
 <meta charset="UTF-8">
-<title>Khóa học</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chi tiết khóa học</title>
 <style>
-
-body{
-font-family:Arial;
-background:#f5f5f5;
-padding:20px;
-}
-
-.container{
-max-width:800px;
-margin:auto;
-background:white;
-padding:20px;
-border-radius:10px;
-}
-
-img{
-width:100%;
-border-radius:10px;
-}
-
-.price{
-color:red;
-font-size:26px;
-}
-
-.old{
-text-decoration:line-through;
-color:gray;
-}
-
-.timer{
-font-size:20px;
-color:#ff5722;
-margin:10px 0;
-}
-
-button{
-background:#ff5722;
-color:white;
-border:none;
-padding:15px 20px;
-font-size:18px;
-border-radius:6px;
-cursor:pointer;
-}
-
-.qr{
-margin-top:20px;
-display:none;
-text-align:center;
-}
-
-.qr img{
-width:300px;
-}
-
+  :root {
+    --primary-pink: #ff5285;
+    --light-pink: #fff0f4;
+    --bg-color: #f7f8fa;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background: var(--bg-color);
+    padding: 20px;
+    margin: 0;
+  }
+  .container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+  .back-btn {
+    display: inline-block;
+    color: var(--primary-pink);
+    text-decoration: none;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  .cover-img {
+    width: 100%;
+    border-radius: 12px;
+    object-fit: cover;
+    margin-bottom: 15px;
+  }
+  h1 {
+    font-size: 24px;
+    color: #333;
+    margin: 10px 0;
+  }
+  .desc {
+    color: #555;
+    line-height: 1.6;
+  }
+  .price-box {
+    background: var(--light-pink);
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  .price-new {
+    color: var(--primary-pink);
+    font-size: 28px;
+    font-weight: bold;
+  }
+  .price-old {
+    text-decoration: line-through;
+    color: #999;
+    font-size: 16px;
+  }
+  .timer {
+    font-size: 18px;
+    color: #ff3b3b;
+    font-weight: bold;
+    text-align: center;
+    margin: 15px 0;
+    padding: 10px;
+    border: 2px dashed #ffb8b8;
+    border-radius: 8px;
+  }
+  .btn-pay {
+    background: var(--primary-pink);
+    color: white;
+    border: none;
+    width: 100%;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(255, 82, 133, 0.3);
+    transition: 0.3s;
+  }
+  .btn-pay:hover {
+    background: #e63e6f;
+  }
+  .qr-section, .bill-section {
+    margin-top: 30px;
+    display: none;
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+  }
+  .qr-section img {
+    max-width: 300px;
+    width: 100%;
+    border-radius: 10px;
+  }
+  .bill-section input {
+    padding: 15px;
+    width: 90%;
+    max-width: 300px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+    font-size: 16px;
+    outline: none;
+  }
+  .bill-section input:focus {
+    border-color: var(--primary-pink);
+  }
+  /* Skeleton load */
+  .skeleton {
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
 </style>
-
 </head>
-
 <body>
 
-<div class="container" id="course"></div>
+<div class="container">
+  <a href="index.html" class="back-btn">⬅ Quay lại</a>
+  <div id="course">
+    <div class="skeleton" style="height: 250px; width: 100%; border-radius: 12px;"></div>
+    <div class="skeleton" style="height: 30px; width: 80%; margin-top: 20px;"></div>
+    <div class="skeleton" style="height: 20px; width: 100%; margin-top: 15px;"></div>
+    <div class="skeleton" style="height: 60px; width: 100%; margin-top: 20px;"></div>
+  </div>
+</div>
 
 <script>
+const API = "https://script.google.com/macros/s/AKfycby7ENqYYIycksLe8HaSnYFfjOXDD_KBHKa_PA3RRjxTdXEod4DKafN0TDny_pgSJf6i/exec";
+const BANK = "MBBank";
+const ACCOUNT = "8877848800613";
+const NAME = "LUU THI HOA";
 
-const API="https://script.google.com/macros/s/AKfycby7ENqYYIycksLe8HaSnYFfjOXDD_KBHKa_PA3RRjxTdXEod4DKafN0TDny_pgSJf6i/exec";
+const params = new URLSearchParams(window.location.search);
+const id = params.get("id");
 
-const BANK="MBBank"
-const ACCOUNT="8877848800613"
-const NAME="LUU THI HOA"
-
-const params=new URLSearchParams(window.location.search)
-const id=params.get("id")
+function formatMoney(num) {
+  if(!num) return "";
+  return Number(num).toLocaleString('vi-VN') + "đ";
+}
 
 fetch(API)
-.then(r=>r.json())
-.then(data=>{
+.then(r => r.json())
+.then(data => {
+  const course = data.find(c => c.ID == id);
+  if(!course) {
+    document.getElementById("course").innerHTML = "<h3 style='color:red;text-align:center;'>Không tìm thấy khóa học!</h3>";
+    return;
+  }
 
-const course=data.find(c=>c.ID==id)
+  let oldPriceHtml = course["Giá gốc"] ? `<div class="price-old">${formatMoney(course["Giá gốc"])}</div>` : "";
 
-let box=document.getElementById("course")
+  document.getElementById("course").innerHTML = `
+    <img class="cover-img" src="${course["Ảnh"]}" alt="Course Image">
+    <h1>${course["Tên"]}</h1>
+    <p class="desc">${course["Mô tả"]}</p>
 
-box.innerHTML=`
+    <div class="price-box">
+      <div class="price-new">${formatMoney(course["Giá sale"])}</div>
+      ${oldPriceHtml}
+    </div>
 
-<img src="${course["Ảnh"]}">
+    <div class="timer" id="timer">Đang tải thời gian...</div>
 
-<h1>${course["Tên"]}</h1>
+    <button class="btn-pay" onclick="showQR('${course["Giá sale"]}', '${course["Tên"]}')">Mua Ngay</button>
 
-<p>${course["Mô tả"]}</p>
+    <div class="qr-section" id="qr"></div>
+    <div class="bill-section" id="bill-form">
+      <h3>Xác nhận chuyển khoản</h3>
+      <p style="color:#666; font-size:14px;">Vui lòng nhập nick Telegram để admin thêm bạn vào lớp</p>
+      <input id="name" placeholder="@username_telegram">
+      <br>
+      <button class="btn-pay" onclick="sendBill()" style="width: auto; padding: 12px 30px;">Gửi Hóa Đơn</button>
+    </div>
+  `;
+});
 
-<div class="price">${course["Giá sale"]} đ</div>
-<div class="old">${course["Giá gốc"]} đ</div>
+function showQR(price, courseName){
+  // Thêm ID khóa học vào nội dung CK cho chuyên nghiệp
+  const text = "MUA " + id.toUpperCase(); 
+  const qr = `https://img.vietqr.io/image/${BANK}-${ACCOUNT}-compact.png?amount=${price}&addInfo=${text}&accountName=${NAME}`;
 
-<div class="timer" id="timer"></div>
+  document.getElementById("qr").style.display = "block";
+  document.getElementById("bill-form").style.display = "block";
 
-<button onclick="showQR('${course["Giá sale"]}')">
-Thanh toán
-</button>
-
-<div class="qr" id="qr"></div>
-<div style="text-align:center; margin-top: 30px; background: #fff; padding: 20px; border-radius: 10px;">
-  <h3>Xác nhận đã chuyển khoản</h3>
-  <input id="name" placeholder="Nhập @username Telegram của bạn" style="padding: 10px; width: 80%; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 15px;">
-  <br>
-  <button onclick="sendBill()" style="background: #4CAF50; color: white;">Tôi đã chuyển khoản thành công</button>
-</div>
-`
-
-})
-
-function showQR(price){
-
-const text="KHOAHOC"
-
-const qr=`https://img.vietqr.io/image/${BANK}-${ACCOUNT}-compact.png?amount=${price}&addInfo=${text}&accountName=${NAME}`
-
-document.getElementById("qr").style.display="block"
-
-document.getElementById("qr").innerHTML=`
-
-<h3>Quét mã để thanh toán</h3>
-
-<img src="${qr}">
-
-<p>Nội dung CK: ${text}</p>
-
-`
-
+  document.getElementById("qr").innerHTML = `
+    <h3 style="color:var(--primary-pink);">Quét mã để thanh toán</h3>
+    <img src="${qr}">
+    <p>Nội dung CK: <strong style="color:red; font-size:18px;">${text}</strong></p>
+  `;
 }
 
 function countdown(){
+  const end = new Date("2026-12-31 23:59:59").getTime(); // Đã nới thời gian sale
+  const now = new Date().getTime();
+  const diff = end - now;
+  if(diff < 0) return;
 
-const end=new Date("2026-03-14 23:59:59").getTime()
+  const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const m = Math.floor((diff / 1000 / 60) % 60);
+  const s = Math.floor((diff / 1000) % 60);
 
-const now=new Date().getTime()
-
-const diff=end-now
-
-if(diff<0)return
-
-const h=Math.floor(diff/1000/60/60)
-const m=Math.floor(diff/1000/60)%60
-const s=Math.floor(diff/1000)%60
-
-document.getElementById("timer").innerHTML=
-"Flash Sale còn: "+h+"h "+m+"m "+s+"s"
-
+  let timerEl = document.getElementById("timer");
+  if(timerEl) {
+    timerEl.innerHTML = `🔥 Flash Sale Kết Thúc Sau: ${h}h ${m}p ${s}s`;
+  }
 }
+setInterval(countdown, 1000);
 
-setInterval(countdown,1000)
 function sendBill(){
-  const name=document.getElementById("name").value;
+  const name = document.getElementById("name").value;
   if(!name) {
     alert("Vui lòng nhập nick Telegram của bạn!");
     return;
   }
   
-  // Nút bấm đang gửi, đổi chữ để khách biết
   alert("Đang gửi hóa đơn, vui lòng đợi 2-3 giây...");
   
-  fetch("https://script.google.com/macros/s/AKfycby7ENqYYIycksLe8HaSnYFfjOXDD_KBHKa_PA3RRjxTdXEod4DKafN0TDny_pgSJf6i/exec",{
-    method:"POST",
-    body:JSON.stringify({
-      name:name,
-      course:id
+  fetch(API, {
+    method: "POST",
+    body: JSON.stringify({
+      name: name,
+      course: id
     })
   }).then(() => {
     alert("✅ Đã gửi bill thành công! Quản trị viên sẽ liên hệ bạn qua Telegram sớm nhất.");
