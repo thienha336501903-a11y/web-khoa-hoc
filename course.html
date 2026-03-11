@@ -108,7 +108,12 @@ Thanh toán
 </button>
 
 <div class="qr" id="qr"></div>
-
+<div style="text-align:center; margin-top: 30px; background: #fff; padding: 20px; border-radius: 10px;">
+  <h3>Xác nhận đã chuyển khoản</h3>
+  <input id="name" placeholder="Nhập @username Telegram của bạn" style="padding: 10px; width: 80%; border-radius: 5px; border: 1px solid #ccc; margin-bottom: 15px;">
+  <br>
+  <button onclick="sendBill()" style="background: #4CAF50; color: white;">Tôi đã chuyển khoản thành công</button>
+</div>
 `
 
 })
@@ -153,7 +158,28 @@ document.getElementById("timer").innerHTML=
 }
 
 setInterval(countdown,1000)
-
+function sendBill(){
+  const name=document.getElementById("name").value;
+  if(!name) {
+    alert("Vui lòng nhập nick Telegram của bạn!");
+    return;
+  }
+  
+  // Nút bấm đang gửi, đổi chữ để khách biết
+  alert("Đang gửi hóa đơn, vui lòng đợi 2-3 giây...");
+  
+  fetch("https://script.google.com/macros/s/AKfycby7ENqYYIycksLe8HaSnYFfjOXDD_KBHKa_PA3RRjxTdXEod4DKafN0TDny_pgSJf6i/exec",{
+    method:"POST",
+    body:JSON.stringify({
+      name:name,
+      course:id
+    })
+  }).then(() => {
+    alert("✅ Đã gửi bill thành công! Quản trị viên sẽ liên hệ bạn qua Telegram sớm nhất.");
+  }).catch(() => {
+    alert("❌ Có lỗi xảy ra, vui lòng thử lại!");
+  });
+}
 </script>
 
 </body>
