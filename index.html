@@ -1,111 +1,248 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="vi">
 <head>
-
 <meta charset="UTF-8">
-<title>Khóa học nấu ăn</title>
-
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khoá Học Sunny</title>
 <style>
-
-body{
-font-family:Arial;
-background:#f5f5f5;
-margin:0;
-}
-
-h1{
-text-align:center;
-padding:20px;
-}
-
-.grid{
-display:grid;
-grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
-gap:20px;
-padding:20px;
-}
-
-.card{
-background:white;
-padding:10px;
-border-radius:10px;
-cursor:pointer;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
-}
-
-.card img{
-width:100%;
-border-radius:8px;
-}
-
-.price{
-color:red;
-font-size:18px;
-}
-
+  :root {
+    --primary-pink: #ff5285;
+    --light-pink: #fff0f4;
+    --gray-text: #888;
+    --bg-color: #f7f8fa;
+  }
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-color);
+    margin: 0;
+    padding: 0;
+  }
+  .header {
+    text-align: center;
+    padding: 40px 20px 20px;
+  }
+  .header h1 {
+    color: var(--primary-pink);
+    margin: 0 0 20px 0;
+    font-size: 32px;
+  }
+  .search-bar {
+    max-width: 500px;
+    margin: 0 auto 20px;
+    display: flex;
+    background: white;
+    border-radius: 30px;
+    padding: 10px 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid #ffd1df;
+  }
+  .search-bar input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 16px;
+    color: #333;
+  }
+  .btn-lib {
+    background: white;
+    color: var(--primary-pink);
+    border: 2px solid var(--primary-pink);
+    padding: 10px 20px;
+    border-radius: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.3s;
+  }
+  .btn-lib:hover {
+    background: var(--light-pink);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .card {
+    background: white;
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+  }
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(255, 82, 133, 0.2);
+  }
+  .img-wrapper {
+    position: relative;
+    padding-top: 60%; /* Tỷ lệ ảnh chuẩn */
+  }
+  .img-wrapper img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .sale-badge {
+    position: absolute;
+    top: 10px; left: 10px;
+    background: var(--primary-pink);
+    color: white;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: bold;
+    z-index: 2;
+  }
+  .card-body {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+  }
+  .card h3 {
+    margin: 0 0 10px 0;
+    font-size: 18px;
+    color: #333;
+  }
+  .price-box {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .price-new {
+    color: var(--primary-pink);
+    font-size: 20px;
+    font-weight: bold;
+  }
+  .price-old {
+    color: var(--gray-text);
+    text-decoration: line-through;
+    font-size: 14px;
+  }
+  .btn-detail {
+    background: var(--primary-pink);
+    color: white;
+    text-align: center;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: bold;
+    margin-top: auto;
+  }
+  /* ---- SKELETON LOADING (KHUNG XƯƠNG CHỜ) ---- */
+  .skeleton {
+    background: #e0e0e0;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 8px;
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
 </style>
-
 </head>
-
 <body>
 
-<h1>Danh sách khóa học</h1>
-<div style="text-align:center;margin:20px">
-
-<a href="mon.html">
-
-<button>Xem thư viện 300 món</button>
-
-</a>
-
+<div class="header">
+  <h1>Khoá Học Sunny</h1>
+  <div class="search-bar">
+    <input type="text" id="searchInput" placeholder="🔍 Tìm khóa học..." onkeyup="searchCourse()">
+  </div>
+  <a href="mon.html" class="btn-lib">🎁 Xem thư viện 300 món</a>
 </div>
+
 <div id="courses" class="grid"></div>
 
 <script>
+const API = "https://script.google.com/macros/s/AKfycby7ENqYYIycksLe8HaSnYFfjOXDD_KBHKa_PA3RRjxTdXEod4DKafN0TDny_pgSJf6i/exec";
+let allCourses = []; // Lưu lại để làm tính năng tìm kiếm
 
-const API="https://script.google.com/macros/s/AKfycby7ENqYYIycksLe8HaSnYFfjOXDD_KBHKa_PA3RRjxTdXEod4DKafN0TDny_pgSJf6i/exec";
+// 1. Hiển thị Khung xương chờ ngay lập tức
+const grid = document.getElementById("courses");
+const skeletonHTML = Array(8).fill(`
+  <div class="card">
+    <div class="img-wrapper skeleton" style="border-radius: 16px 16px 0 0;"></div>
+    <div class="card-body">
+      <div class="skeleton" style="height: 24px; width: 80%; margin-bottom: 15px;"></div>
+      <div class="skeleton" style="height: 20px; width: 50%; margin-bottom: 20px;"></div>
+      <div class="skeleton" style="height: 40px; width: 100%; border-radius: 8px;"></div>
+    </div>
+  </div>
+`).join('');
+grid.innerHTML = skeletonHTML;
 
-function openCourse(id){
-
-window.location.href="course.html?id="+id
-
+// 2. Hàm định dạng tiền Việt Nam (VD: 199000 -> 199.000đ)
+function formatMoney(num) {
+  if(!num) return "";
+  return Number(num).toLocaleString('vi-VN') + "đ";
 }
 
+function openCourse(id){
+  window.location.href="course.html?id="+id;
+}
+
+// 3. Render giao diện thật khi có dữ liệu
+function renderData(dataToRender) {
+  grid.innerHTML = "";
+  if(dataToRender.length === 0) {
+    grid.innerHTML = "<p style='text-align:center; width:100%; color:#888;'>Không tìm thấy khóa học nào.</p>";
+    return;
+  }
+  
+  dataToRender.forEach(c => {
+    if(c["Hiển thị"] != "ON") return;
+    
+    // Kiểm tra xem có giá gốc không để hiển thị
+    let oldPriceHtml = c["Giá gốc"] ? `<span class="price-old">${formatMoney(c["Giá gốc"])}</span>` : "";
+
+    grid.innerHTML += `
+      <div class="card" onclick="openCourse('${c["ID"]}')">
+        <div class="img-wrapper">
+          <span class="sale-badge">SALE</span>
+          <img src="${c["Ảnh"]}">
+        </div>
+        <div class="card-body">
+          <h3>${c["Tên"]}</h3>
+          <div class="price-box">
+            <span class="price-new">${formatMoney(c["Giá sale"])}</span>
+            ${oldPriceHtml}
+          </div>
+          <div class="btn-detail">Xem chi tiết</div>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// 4. Gọi API lấy dữ liệu
 fetch(API)
-.then(r=>r.json())
-.then(data=>{
+  .then(r => r.json())
+  .then(data => {
+    allCourses = data;
+    renderData(allCourses);
+  })
+  .catch(err => {
+    grid.innerHTML = "<p style='text-align:center; color:red;'>Lỗi tải dữ liệu. Vui lòng tải lại trang!</p>";
+  });
 
-let box=document.getElementById("courses")
-
-data.forEach(c=>{
-
-if(c["Hiển thị"]!="ON") return
-
-box.innerHTML+=`
-
-<div class="card" onclick="openCourse('${c["ID"]}')">
-
-<img src="${c["Ảnh"]}">
-
-<h3>${c["Tên"]}</h3>
-
-<p>${c["Mô tả"]}</p>
-
-<div class="price">${c["Giá sale"]} đ</div>
-
-</div>
-
-`
-
-})
-
-})
-
+// 5. Tính năng tìm kiếm khóa học mượt mà
+function searchCourse() {
+  const keyword = document.getElementById("searchInput").value.toLowerCase();
+  const filtered = allCourses.filter(c => c["Tên"] && c["Tên"].toLowerCase().includes(keyword));
+  renderData(filtered);
+}
 </script>
 
 </body>
 </html>
  
-
-
