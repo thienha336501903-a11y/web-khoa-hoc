@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+<title>Khóa học</title>
+
+<style>
+
+body{
+font-family:Arial;
+background:#f5f5f5;
+padding:20px;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+img{
+width:100%;
+border-radius:10px;
+}
+
+.price{
+color:red;
+font-size:26px;
+}
+
+.old{
+text-decoration:line-through;
+color:gray;
+}
+
+.timer{
+font-size:20px;
+color:#ff5722;
+margin:10px 0;
+}
+
+button{
+background:#ff5722;
+color:white;
+border:none;
+padding:15px 20px;
+font-size:18px;
+border-radius:6px;
+cursor:pointer;
+}
+
+.qr{
+margin-top:20px;
+display:none;
+text-align:center;
+}
+
+.qr img{
+width:300px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container" id="course"></div>
+
+<script>
+
+const API="DÁN_LINK_API";
+
+const BANK="MBBank"
+const ACCOUNT="123456789"
+const NAME="TEN_TAI_KHOAN"
+
+const params=new URLSearchParams(window.location.search)
+const id=params.get("id")
+
+fetch(API)
+.then(r=>r.json())
+.then(data=>{
+
+const course=data.find(c=>c.ID==id)
+
+let box=document.getElementById("course")
+
+box.innerHTML=`
+
+<img src="${course["Ảnh"]}">
+
+<h1>${course["Tên"]}</h1>
+
+<p>${course["Mô tả"]}</p>
+
+<div class="price">${course["Giá sale"]} đ</div>
+<div class="old">${course["Giá gốc"]} đ</div>
+
+<div class="timer" id="timer"></div>
+
+<button onclick="showQR('${course["Giá sale"]}')">
+Thanh toán
+</button>
+
+<div class="qr" id="qr"></div>
+
+`
+
+})
+
+function showQR(price){
+
+const text="KHOAHOC"
+
+const qr=`https://img.vietqr.io/image/${BANK}-${ACCOUNT}-compact.png?amount=${price}&addInfo=${text}&accountName=${NAME}`
+
+document.getElementById("qr").style.display="block"
+
+document.getElementById("qr").innerHTML=`
+
+<h3>Quét mã để thanh toán</h3>
+
+<img src="${qr}">
+
+<p>Nội dung CK: ${text}</p>
+
+`
+
+}
+
+function countdown(){
+
+const end=new Date("2026-03-14 23:59:59").getTime()
+
+const now=new Date().getTime()
+
+const diff=end-now
+
+if(diff<0)return
+
+const h=Math.floor(diff/1000/60/60)
+const m=Math.floor(diff/1000/60)%60
+const s=Math.floor(diff/1000)%60
+
+document.getElementById("timer").innerHTML=
+"Flash Sale còn: "+h+"h "+m+"m "+s+"s"
+
+}
+
+setInterval(countdown,1000)
+
+</script>
+
+</body>
+</html>
+ 
